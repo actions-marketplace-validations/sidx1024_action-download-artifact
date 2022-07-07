@@ -80,8 +80,8 @@ async function main() {
             core.info(`==> Run number: ${runNumber}`)
         }
 
-        let listWorkflowRunsCount = 0;
-        let listWorkflowRunArtifactsCount = 0;
+        let listWorkflowRunsCount = 1;
+        let listWorkflowRunArtifactsCount = 1;
 
         if (!runID) {
             // Note that the runs are returned in most recent first order.
