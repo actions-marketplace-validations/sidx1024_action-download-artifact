@@ -80,6 +80,9 @@ async function main() {
             core.info(`==> Run number: ${runNumber}`)
         }
 
+        let listWorkflowRunsCount = 0;
+        let listWorkflowRunArtifactsCount = 0;
+
         if (!runID) {
             // Note that the runs are returned in most recent first order.
             for await (const runs of client.paginate.iterator(client.actions.listWorkflowRuns, {
@@ -90,6 +93,8 @@ async function main() {
                 ...(event ? { event } : {}),
             }
             )) {
+                core.info(`==> Hitting GitHub API (client.actions.listWorkflowRuns): ${listWorkflowRunsCount++}`)
+
                 for (const run of runs.data) {
                     if (commit && run.head_sha != commit) {
                         continue
@@ -101,6 +106,7 @@ async function main() {
                         continue
                     }
                     if (checkArtifacts || searchArtifacts) {
+                        core.info(`==> Hitting GitHub API (client.actions.listWorkflowRunArtifacts): ${listWorkflowRunArtifactsCount++}`)
                         let artifacts = await client.actions.listWorkflowRunArtifacts({
                             owner: owner,
                             repo: repo,
